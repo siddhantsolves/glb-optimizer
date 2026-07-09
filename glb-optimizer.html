@@ -6,6 +6,16 @@
   <title>Local 3D GLB Optimizer</title>
   <!-- Tailwind CSS CDN for modern UI styling -->
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Import Map to resolve Dual Package Hazard (duplicate core library instances) -->
+  <script type="importmap">
+    {
+      "imports": {
+        "@gltf-transform/core": "https://esm.sh/@gltf-transform/core@4.4.1",
+        "@gltf-transform/functions": "https://esm.sh/@gltf-transform/functions@4.4.1?deps=@gltf-transform/core@4.4.1"
+      }
+    }
+  </script>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-center p-6">
 
@@ -66,8 +76,9 @@
 
   <!-- Native Browser ES Module Import -->
   <script type="module">
-    import { WebIO } from 'https://esm.sh/@gltf-transform/core';
-    import { prune, dedup, weld, resample } from 'https://esm.sh/@gltf-transform/functions';
+    // Using importmap bare-specifiers to ensure shared memory references
+    import { WebIO } from '@gltf-transform/core';
+    import { prune, dedup, weld, resample } from '@gltf-transform/functions';
 
     const dropZone = document.getElementById('drop-zone');
     const fileInput = document.getElementById('file-input');
